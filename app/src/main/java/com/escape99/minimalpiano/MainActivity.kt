@@ -10,12 +10,15 @@ import android.os.Handler
 import android.os.Looper
 import android.view.MotionEvent
 import android.widget.ImageButton
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.children
+import androidx.core.content.edit
+import androidx.core.view.ViewCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         requestInitialKeyPreferences()
         setFullscreenMode()
         setContentView(R.layout.activity_main)
@@ -74,9 +78,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateKeyPreferences(valueName: String, newValue: Int) {
-        with (keyPreferences.edit()) {
+        keyPreferences.edit {
             putInt(valueName, newValue)
-            apply()
         }
     }
 

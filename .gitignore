@@ -1,8 +1,5 @@
 *.iml
 .gradle
-*.apk
-*.ap_
-*.aab
 /local.properties
 /.idea/caches
 /.idea/libraries
