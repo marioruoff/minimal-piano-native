@@ -18,9 +18,19 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.children
 import androidx.core.content.edit
-import androidx.core.view.ViewCompat
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        init {
+            System.loadLibrary("minimalpiano")
+        }
+    }
+
+    private external fun startEngine()
+    private external fun stopEngine()
+    private external fun loadSound(soundId: Int, data: ByteArray)
+    private external fun playSound(soundId: Int)
 
     private lateinit var keyPreferences: SharedPreferences
     private var keyCount = 0
@@ -47,6 +57,16 @@ class MainActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             setKeyPosition()
         }, 100)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        startEngine()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        stopEngine()
     }
 
     private fun requestInitialKeyPreferences() {
@@ -151,28 +171,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeAudio() {
-        // Set up audio builder
-        val audioAttributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_GAME)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-            .build()
-        val soundPool = SoundPool.Builder()
-            .setMaxStreams(10)
-            .setAudioAttributes(audioAttributes)
-            .build()
-
         // Load sounds from keys defined in xml
         val keys: ConstraintLayout = findViewById(R.id.keys)
         for (key in keys.children) {
             if (key.tag == "whiteKey" || key.tag == "blackKey") {
                 val keyName = resources.getResourceEntryName(key.id)
-                val soundId = resources.getIdentifier("acoustic_grand_piano_$keyName", "raw", applicationContext.packageName)
-                val sound = soundPool.load(this, soundId, 1)
+                val soundId = resources.getIdentifier("acoustic_grand_piano_$keyName", "raw", packageName)
+
+                val bytes = resources.openRawResource(soundId).use { it.readBytes() }
+                loadSound(soundId, bytes)
+
                 key.setOnTouchListener { view, event ->
                     when(event.action) {
                         MotionEvent.ACTION_DOWN -> {
-                            // println("Key name: $keyName")
-                            soundPool.play(sound, 0.2f, 0.2f, 0, 0, 1f)
+                            playSound(soundId)
                         }
                         MotionEvent.ACTION_MOVE -> { }
                         MotionEvent.ACTION_UP -> {
