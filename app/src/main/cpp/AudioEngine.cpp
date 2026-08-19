@@ -1,9 +1,6 @@
 #include <jni.h>
-#include <string>
 #include <oboe/Oboe.h>
 #include <android/log.h>
-#include <memory>
-#include <mutex>
 #include <map>
 
 #define DR_WAV_IMPLEMENTATION
@@ -16,7 +13,7 @@ struct SoundSample {
     std::vector<float> data;
 };
 
-struct ActiveVoice {
+struct ActiveSound {
     int soundId;
     size_t frameIndex;
 };
@@ -24,7 +21,7 @@ struct ActiveVoice {
 class PianoCallback : public oboe::AudioStreamDataCallback {
 public:
     std::map<int, SoundSample> samples;
-    std::vector<ActiveVoice> activeSounds;
+    std::vector<ActiveSound> activeSounds;
     std::mutex soundMutex;
 
     oboe::DataCallbackResult onAudioReady(oboe::AudioStream *audioStream, void *audioData, int32_t numFrames) override {
@@ -45,8 +42,9 @@ public:
             size_t remaining = sample.size() - it->frameIndex;
             size_t framesToMix = std::min((size_t)totalSamples, remaining);
 
+            const float soundGain = 0.5f;
             for (size_t i = 0; i < framesToMix; ++i) {
-                outputData[i] += sample[it->frameIndex + i];
+                outputData[i] += sample[it->frameIndex + i] * soundGain;
             }
 
             it->frameIndex += framesToMix;
@@ -55,6 +53,11 @@ public:
             } else {
                 ++it;
             }
+        }
+
+        // Clamp to avoid harsh digital distortion if voices sum > 1.0
+        for (int i = 0; i < totalSamples; ++i) {
+            outputData[i] = std::clamp(outputData[i], -1.0f, 1.0f);
         }
 
         return oboe::DataCallbackResult::Continue;
@@ -77,6 +80,7 @@ public:
                 ->setFormat(oboe::AudioFormat::Float)
                 ->setChannelCount(oboe::ChannelCount::Stereo)
                 ->setSampleRate(44100)
+                ->setSampleRateConversionQuality(oboe::SampleRateConversionQuality::Medium)
                 ->setDataCallback(&callback);
 
         oboe::Result result = builder.openStream(stream);
@@ -98,17 +102,7 @@ public:
         }
     }
 
-    void loadSound(int soundId, const float* data, int numSamples) {
-        std::lock_guard<std::mutex> lock(callback.soundMutex);
-        callback.samples[soundId] = SoundSample{ std::vector<float>(data, data + numSamples) };
-    }
-
-    void playSound(int soundId) {
-        std::lock_guard<std::mutex> lock(callback.soundMutex);
-        callback.activeSounds.push_back({soundId, 0});
-    }
-
-    void loadWavFromMemory(int soundId, const void* data, size_t size) {
+    void loadSound(int soundId, const void* data, size_t size) {
         unsigned int channels;
         unsigned int sampleRate;
         drwav_uint64 totalPCMFrameCount;
@@ -124,6 +118,11 @@ public:
             };
             drwav_free(pSampleData, NULL);
         }
+    }
+
+    void playSound(int soundId) {
+        std::lock_guard<std::mutex> lock(callback.soundMutex);
+        callback.activeSounds.push_back({soundId, 0});
     }
 };
 
@@ -144,7 +143,7 @@ extern "C" JNIEXPORT void JNICALL
 Java_com_escape99_minimalpiano_MainActivity_loadSound(JNIEnv *env, jobject, jint soundId, jbyteArray wavBytes) {
     jsize len = env->GetArrayLength(wavBytes);
     jbyte* buffer = env->GetByteArrayElements(wavBytes, nullptr);
-    engine.loadWavFromMemory(soundId, buffer, len);
+    engine.loadSound(soundId, buffer, len);
     env->ReleaseByteArrayElements(wavBytes, buffer, JNI_ABORT);
 }
 
