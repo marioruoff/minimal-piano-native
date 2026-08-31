@@ -42,7 +42,7 @@ public:
             size_t remaining = sample.size() - it->frameIndex;
             size_t framesToMix = std::min((size_t)totalSamples, remaining);
 
-            const float soundGain = 0.5f;
+            const float soundGain = 0.2f;
             for (size_t i = 0; i < framesToMix; ++i) {
                 outputData[i] += sample[it->frameIndex + i] * soundGain;
             }
