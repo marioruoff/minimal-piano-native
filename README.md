@@ -6,18 +6,18 @@
 <p align="center">
   <a href="https://opensource.org/licenses/MIT" alt="License">
         <img src="https://img.shields.io/badge/license-GPLv3-blue" /></a>
-  <a href="https://github.com/mario-ruoff/minimal-piano-native/stargazers" alt="GitHub Stars">
-        <img src="https://img.shields.io/github/stars/mario-ruoff/minimal-piano-native.svg" /></a>
-  <a href="https://github.com/mario-ruoff/minimal-piano-native/issues" alt="GitHub Issues">
-        <img src="https://img.shields.io/github/issues/mario-ruoff/minimal-piano-native.svg" /></a>
-  <a href="https://github.com/mario-ruoff/minimal-piano-native/pulls" alt="GitHub Pull Requests">
-        <img src="https://img.shields.io/github/issues-pr/mario-ruoff/minimal-piano-native.svg" /></a>
+  <a href="https://github.com/marioruoff/minimal-piano-native/stargazers" alt="GitHub Stars">
+        <img src="https://img.shields.io/github/stars/marioruoff/minimal-piano-native.svg" /></a>
+  <a href="https://github.com/marioruoff/minimal-piano-native/issues" alt="GitHub Issues">
+        <img src="https://img.shields.io/github/issues/marioruoff/minimal-piano-native.svg" /></a>
+  <a href="https://github.com/marioruoff/minimal-piano-native/pulls" alt="GitHub Pull Requests">
+        <img src="https://img.shields.io/github/issues-pr/marioruoff/minimal-piano-native.svg" /></a>
   <a alt="Version">
         <img src="https://img.shields.io/badge/version-alpha-orange.svg" /></a>
 </p>
 
 ## Description
-Minimal Piano Native is a free, open-source piano app without any ads or in-app purchases. It is a rebuild of the original Minimal Piano app built in React: [Minimal Piano React](https://github.com/mario-ruoff/minimal-piano-react)
+Minimal Piano Native is a free, open-source piano app without any ads or in-app purchases. It is a rebuild of the original Minimal Piano app built in React: [Minimal Piano React](https://github.com/marioruoff/minimal-piano-react)
 
 ## Screenshots
 <p align="center">
@@ -52,5 +52,5 @@ For questions, suggestions, or collaborations, feel free to contact the project 
 
 Mario Ruoff
 
-- GitHub: [@mario-ruoff](https://github.com/mario-ruoff)
-- Email: [info@mario-ruoff.com](mailto:info@mario-ruoff.com)
+- GitHub: [@marioruoff](https://github.com/marioruoff)
+- Email: [mario.ruoff@ik.me](mailto:mario.ruoff@ik.me)
