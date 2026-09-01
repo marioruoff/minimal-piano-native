@@ -175,8 +175,7 @@ class MainActivity : AppCompatActivity() {
         val keys: ConstraintLayout = findViewById(R.id.keys)
         for (key in keys.children) {
             if (key.tag == "whiteKey" || key.tag == "blackKey") {
-                val keyName = resources.getResourceEntryName(key.id)
-                val soundId = resources.getIdentifier("acoustic_grand_piano_$keyName", "raw", packageName)
+                val soundId = keySoundMap[key.id] ?: continue
 
                 val bytes = resources.openRawResource(soundId).use { it.readBytes() }
                 loadSound(soundId, bytes)
@@ -196,5 +195,44 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private val keySoundMap = mapOf(
+        R.id.c3 to R.raw.acoustic_grand_piano_c3,
+        R.id.d3 to R.raw.acoustic_grand_piano_d3,
+        R.id.e3 to R.raw.acoustic_grand_piano_e3,
+        R.id.f3 to R.raw.acoustic_grand_piano_f3,
+        R.id.g3 to R.raw.acoustic_grand_piano_g3,
+        R.id.a3 to R.raw.acoustic_grand_piano_a3,
+        R.id.b3 to R.raw.acoustic_grand_piano_b3,
+        R.id.c4 to R.raw.acoustic_grand_piano_c4,
+        R.id.d4 to R.raw.acoustic_grand_piano_d4,
+        R.id.e4 to R.raw.acoustic_grand_piano_e4,
+        R.id.f4 to R.raw.acoustic_grand_piano_f4,
+        R.id.g4 to R.raw.acoustic_grand_piano_g4,
+        R.id.a4 to R.raw.acoustic_grand_piano_a4,
+        R.id.b4 to R.raw.acoustic_grand_piano_b4,
+        R.id.c5 to R.raw.acoustic_grand_piano_c5,
+        R.id.d5 to R.raw.acoustic_grand_piano_d5,
+        R.id.e5 to R.raw.acoustic_grand_piano_e5,
+        R.id.f5 to R.raw.acoustic_grand_piano_f5,
+        R.id.g5 to R.raw.acoustic_grand_piano_g5,
+        R.id.a5 to R.raw.acoustic_grand_piano_a5,
+        R.id.b5 to R.raw.acoustic_grand_piano_b5,
+        R.id.db3 to R.raw.acoustic_grand_piano_db3,
+        R.id.eb3 to R.raw.acoustic_grand_piano_eb3,
+        R.id.gb3 to R.raw.acoustic_grand_piano_gb3,
+        R.id.ab3 to R.raw.acoustic_grand_piano_ab3,
+        R.id.bb3 to R.raw.acoustic_grand_piano_bb3,
+        R.id.db4 to R.raw.acoustic_grand_piano_db4,
+        R.id.eb4 to R.raw.acoustic_grand_piano_eb4,
+        R.id.gb4 to R.raw.acoustic_grand_piano_gb4,
+        R.id.ab4 to R.raw.acoustic_grand_piano_ab4,
+        R.id.bb4 to R.raw.acoustic_grand_piano_bb4,
+        R.id.db5 to R.raw.acoustic_grand_piano_db5,
+        R.id.eb5 to R.raw.acoustic_grand_piano_eb5,
+        R.id.gb5 to R.raw.acoustic_grand_piano_gb5,
+        R.id.ab5 to R.raw.acoustic_grand_piano_ab5,
+        R.id.bb5 to R.raw.acoustic_grand_piano_bb5,
+    )
 
 }
