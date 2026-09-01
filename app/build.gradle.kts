@@ -12,8 +12,8 @@ android {
         applicationId = "com.escape99.minimalpiano"
         minSdk = 24
         targetSdk = 37
-        versionCode = 39
-        versionName = "2.4.1"
+        versionCode = 40
+        versionName = "2.4.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -26,11 +26,9 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            optimization {
+                enable = true // Enables code and resource optimizations.
+            }
         }
     }
     compileOptions {
