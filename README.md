@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Logo" src="/app/src/main/assets/icons/icon.png" width="128" />
+  <img alt="Logo" src="assets/icons/icon.png" width="128" />
   <h1 align="center">Minimal Piano Native</h1>
 </p>
 
@@ -21,9 +21,9 @@ Minimal Piano Native is a free, open-source piano app without any ads or in-app 
 
 ## Screenshots
 <p align="center">
-  <img alt="Logo" src="app/src/main/assets/playstore-images/phone-image-1.jpg" width="40%" />
+  <img alt="Logo" src="assets/playstore-images/phone-image-1.jpg" width="40%" />
   &nbsp;&nbsp;
-  <img alt="Logo" src="app/src/main/assets/playstore-images/phone-image-2.jpg" width="40%" />
+  <img alt="Logo" src="assets/playstore-images/phone-image-2.jpg" width="40%" />
 </p>
 
 ## Install
