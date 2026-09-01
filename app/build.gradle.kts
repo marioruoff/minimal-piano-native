@@ -12,8 +12,8 @@ android {
         applicationId = "com.escape99.minimalpiano"
         minSdk = 24
         targetSdk = 37
-        versionCode = 40
-        versionName = "2.4.2"
+        versionCode = 41
+        versionName = "2.4.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
